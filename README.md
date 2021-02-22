@@ -1,24 +1,7 @@
 # vue-jsframe
 
-## Project setup
-```
-yarn install
-```
+## jsframeをvue.jsでつかう
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+https://qiita.com/riversun/items/1adffa5674bc5123b16d
+https://qiita.com/kiyc/items/a94a202bf06fff644f62
+https://qiita.com/fukuman/items/b0bc84081ad0d2bc522a
