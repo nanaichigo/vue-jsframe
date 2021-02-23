@@ -1,5 +1,8 @@
 <template>
+  <div>
   <button @click="addClick">Add</button>
+  <div :ref=id v-for="(frame, id) in frameList" :key=id @newEvent="TestEvent"/>
+  </div>
 </template>
 
 <script>
@@ -14,19 +17,22 @@ export default {
     data(){
         return{
             jsFrame: new JSFrame(),
-            frameList:[],
+            frameList:{},
         }
     },
     methods:{
         addClick(){
+            const vuethis = this;
+            const frameID = "frame_" + Object.keys(this.frameList).length;
             const frameRouter = this.$router.resolve({
                 name: 'Framepage',
-                params: {
-                    data: encodeURIComponent()
+                props:{
+                    frameId:"123",
+                    mainControl:vuethis
                 }
             })
             const frame = this.jsFrame.create({
-                title: 'Window',
+                title: 'Window' + frameID,
                 left: 20, top: 20, width: 320, height: 220,
                 movable: true,//Enable to be moved by mouse
                 resizable: true,//Enable to be resized by mouse
@@ -34,7 +40,10 @@ export default {
             });
 
             frame.show();
-            this.frameList.push(frame);
+            this.frameList[frameID] = frame;
+        },
+        TestEvent(param){
+            console.log(param)
         }
     }
 }

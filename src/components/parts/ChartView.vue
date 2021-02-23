@@ -1,7 +1,7 @@
 <template>
   <div>
       {{title}}
-      <bar-chart :graphData="graphData" :graphOptions="graphOptions" />
+      <bar-chart :graphData="graphData" :graphOptions="graphOptions" @graphclick="graphClick" />
   </div>
 </template>
 
@@ -15,6 +15,12 @@ export default {
         title:String,
         graphData:Object,
         graphOptions:Object
+    },
+    methods:{
+        graphClick(params){
+            //そのまま流す
+            this.$emit("graphclick", params);
+        }
     }
 }
 </script>

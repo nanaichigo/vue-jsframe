@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div :id=frameNo :ref=frameNo>
       <textbox-view :originText=messeage @edit="editMesseage" v-if="!isshow"/>
-      <chart-view :title=messeage :graphData="data" :graphOptions="options" v-else />
+      <chart-view :title=messeage :graphData="data" :graphOptions="options" @graphclick="graphClick" v-else />
       <button @click="change">Change</button>
   </div>
 </template>
@@ -11,6 +11,10 @@ import TextboxView from '@/components/parts/TextboxView';
 import ChartView from '@/components/parts/ChartView';
 export default {
     name:"Framepage",
+    props:{
+        frameId:String,
+        mainControl:Object
+    },
     components:{
         "textbox-view":TextboxView,
         "chart-view": ChartView
@@ -68,8 +72,14 @@ export default {
                     }
                 }]
                 }
-            }
+            },
+            vuethis:{},
+            frameNo:""
         }
+    },
+    mounted(){
+        this.vuethis = this.mainControl;
+        this.frameNo = this.frameId;
     },
     methods:{
         change(){
@@ -79,6 +89,21 @@ export default {
         },
         editMesseage(params){
             this.messeage = params;
+        },
+        graphClick(params){
+            //そのまま流す
+            console.log(params)
+            this.$emit("graphclick", params);
+
+            // カスタムイベントの発行
+            var event = new Event('build');
+            const elem = this.$refs[this.frameId]
+            // Listen for the event.
+            elem.addEventListener('build', function () { /* ... */ }, false);
+
+            // Dispatch the event.
+            elem.dispatchEvent(event);
+
         }
     }
 }
