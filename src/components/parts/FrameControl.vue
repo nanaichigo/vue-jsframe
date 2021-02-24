@@ -1,7 +1,7 @@
 <template>
   <div>
   <button @click="addClick">Add</button>
-  <div :ref=id v-for="(frame, id) in frameList" :key=id @newEvent="TestEvent"/>
+  {{clickLog}}
   </div>
 </template>
 
@@ -18,6 +18,7 @@ export default {
         return{
             jsFrame: new JSFrame(),
             frameList:{},
+            clickLog:[]
         }
     },
     methods:{
@@ -36,14 +37,33 @@ export default {
                 left: 20, top: 20, width: 320, height: 220,
                 movable: true,//Enable to be moved by mouse
                 resizable: true,//Enable to be resized by mouse
-                url: frameRouter.href
             });
-
-            frame.show();
+            const frameEvent = this.frameEventlistener.bind(this);
+            frame.setUrl(frameRouter.href).then(function(){
+                frame.show();
+                console.log(frame.getFrameView())
+                frame.getIfDocument().getElementById("create").addEventListener("click", function(){
+                        console.log("click")
+                        frameEvent(frame);
+                    })
+            });
+            
             this.frameList[frameID] = frame;
+
         },
-        TestEvent(param){
-            console.log(param)
+        frameEventlistener(frame){
+            const graphClick = this.graphClickEvent.bind(this);
+            console.log("eventListen")
+            frame.getIfDocument().getElementById("bar-chart").addEventListener("graphClick", function(params){
+                console.log(params);
+                graphClick(params.detail);
+            })
+
+        },
+        graphClickEvent(params){
+            console.log("GraphClickEvent");
+            console.log(params);
+            this.clickLog.push(params)
         }
     }
 }

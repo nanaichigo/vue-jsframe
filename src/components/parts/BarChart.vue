@@ -36,6 +36,10 @@ export default {
                     datasetIndexLabel: chart.tooltip._data.datasets[datasetIndex].label
                 };
                 chart.data.vuethis.$emit("graphclick", info);
+
+                const event = new CustomEvent("graphClick", {detail: info});
+                console.log(this.$el);
+                document.getElementById("bar-chart").dispatchEvent(event);
         }
     }
     }

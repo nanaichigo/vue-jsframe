@@ -2,7 +2,7 @@
   <div :id=frameNo :ref=frameNo>
       <textbox-view :originText=messeage @edit="editMesseage" v-if="!isshow"/>
       <chart-view :title=messeage :graphData="data" :graphOptions="options" @graphclick="graphClick" v-else />
-      <button @click="change">Change</button>
+      <button id="create" @click="change">Change</button>
   </div>
 </template>
 
@@ -13,7 +13,8 @@ export default {
     name:"Framepage",
     props:{
         frameId:String,
-        mainControl:Object
+        mainControl:Object,
+        frameObject:Object
     },
     components:{
         "textbox-view":TextboxView,
@@ -80,6 +81,7 @@ export default {
     mounted(){
         this.vuethis = this.mainControl;
         this.frameNo = this.frameId;
+        this.frame = this.frameObject
     },
     methods:{
         change(){
@@ -95,15 +97,9 @@ export default {
             console.log(params)
             this.$emit("graphclick", params);
 
-            // カスタムイベントの発行
-            var event = new Event('build');
-            const elem = this.$refs[this.frameId]
-            // Listen for the event.
-            elem.addEventListener('build', function () { /* ... */ }, false);
-
-            // Dispatch the event.
-            elem.dispatchEvent(event);
-
+            const event = new CustomEvent("graphClick", {data: params});
+            console.log(this.$el);
+            this.$el.dispatchEvent(event);
         }
     }
 }
