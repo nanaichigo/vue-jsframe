@@ -1,5 +1,7 @@
 <template>
   <div :id=frameNo :ref=frameNo>
+      <div id="title" @change="messeage_change">{{title}}</div>
+      {{messeage}}
       <textbox-view :originText=messeage @edit="editMesseage" v-if="!isshow"/>
       <chart-view :title=messeage :graphData="data" :graphOptions="options" @graphclick="graphClick" v-else />
       <button id="create" @click="change">Change</button>
@@ -11,11 +13,6 @@ import TextboxView from '@/components/parts/TextboxView';
 import ChartView from '@/components/parts/ChartView';
 export default {
     name:"Framepage",
-    props:{
-        frameId:String,
-        mainControl:Object,
-        frameObject:Object
-    },
     components:{
         "textbox-view":TextboxView,
         "chart-view": ChartView
@@ -75,19 +72,18 @@ export default {
                 }
             },
             vuethis:{},
+            title:"",
             frameNo:""
         }
     },
     mounted(){
-        this.vuethis = this.mainControl;
-        this.frameNo = this.frameId;
-        this.frame = this.frameObject
+        this.title = this.$route.query.title;
+        this.frameNo = this.$route.query.frameId;
+        this.messeage = this.$route.query.messeage;
     },
     methods:{
         change(){
-            const tmp = this.messeage;
             this.isshow = !this.isshow;
-            this.messeage = tmp;
         },
         editMesseage(params){
             this.messeage = params;
@@ -95,11 +91,14 @@ export default {
         graphClick(params){
             //そのまま流す
             console.log(params)
-            this.$emit("graphclick", params);
+            // this.$emit("graphclick", params);
 
-            const event = new CustomEvent("graphClick", {data: params});
+            const event = new CustomEvent("graphClick", {detail: params});
             console.log(this.$el);
-            this.$el.dispatchEvent(event);
+            document.getElementById(this.frameNo).dispatchEvent(event);
+        },
+        messeage_change(event){
+            this.title = event.detail.messeage;
         }
     }
 }

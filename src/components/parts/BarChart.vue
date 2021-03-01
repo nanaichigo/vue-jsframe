@@ -37,9 +37,6 @@ export default {
                 };
                 chart.data.vuethis.$emit("graphclick", info);
 
-                const event = new CustomEvent("graphClick", {detail: info});
-                console.log(this.$el);
-                document.getElementById("bar-chart").dispatchEvent(event);
         }
     }
     }

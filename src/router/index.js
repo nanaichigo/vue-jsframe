@@ -15,7 +15,6 @@ const routes = [
         path: "/Framepage",
         name: "Framepage",
         component: Framepage,
-        props:true
     }
 ]
 
