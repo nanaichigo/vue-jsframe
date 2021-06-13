@@ -3,7 +3,7 @@
       <div id="title" @change="messeage_change">{{title}}</div>
       {{messeage}}
       <textbox-view :originText=messeage @edit="editMesseage" v-if="!isshow"/>
-      <chart-view :title=messeage :graphData="data" :graphOptions="options" @graphclick="graphClick" v-else />
+      <chart-view :title=messeage :graphData="data" :graphOptions="options" @graphclick="graphClick" :width=width :height=height v-else />
       <button id="create" @click="change">Change</button>
   </div>
 </template>
@@ -69,17 +69,21 @@ export default {
                     stepSize: 10,
                     }
                 }]
-                }
+                },
             },
             vuethis:{},
             title:"",
-            frameNo:""
+            frameNo:"",
         }
     },
     mounted(){
         this.title = this.$route.query.title;
         this.frameNo = this.$route.query.frameId;
         this.messeage = this.$route.query.messeage;
+        window.addEventListener('resize', this.handleResize)
+    },
+    beforeDestroy: function () {
+        window.removeEventListener('resize', this.handleResize)
     },
     methods:{
         change(){
@@ -99,6 +103,11 @@ export default {
         },
         messeage_change(event){
             this.title = event.detail.messeage;
+        },
+        handleResize() {
+            this.width = window.innerWidth * 0.8;
+            this.height = window.innerHeight * 0.8;
+            this.messeage = `${this.width}, ${this.height}`
         }
     }
 }

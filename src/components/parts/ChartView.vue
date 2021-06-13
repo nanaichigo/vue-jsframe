@@ -1,7 +1,7 @@
 <template>
   <div>
       {{title}}
-      <bar-chart :graphData="graphData" :graphOptions="graphOptions" @graphclick="graphClick" />
+      <bar-chart :graphData="graphData" :graphOptions="graphOptions" :style=myStyles @graphclick="graphClick" />
   </div>
 </template>
 
@@ -14,12 +14,23 @@ export default {
     props:{
         title:String,
         graphData:Object,
-        graphOptions:Object
+        graphOptions:Object,
+        width:Number,
+        height:Number
     },
     methods:{
         graphClick(params){
             //そのまま流す
             this.$emit("graphclick", params);
+        }
+    },
+    computed:{
+        myStyles(){
+            return {
+                height: `${this.height}px`,
+                width: `${this.width}px`,
+                position: "relative"
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-simplebar id="test">
   {{clickLog}}
   <textarea v-model="messeage"></textarea>
   </div>
@@ -49,7 +49,7 @@ export default {
             })
             const frame = this.jsFrame.create({
                 title: frameID,
-                left: 20, top: 20, width: 450, height: 500,
+                left: 1900, top: 20, width: 450, height: 500,
                 movable: true,//Enable to be moved by mouse
                 resizable: true,//Enable to be resized by mouse
             });
@@ -65,6 +65,7 @@ export default {
             
             this.frameList[frameID] = frame;
 
+            window.innerWidth = 5000
         },
         frameEventlistener(frame){
             const graphClick = this.graphClickEvent.bind(this);
@@ -93,5 +94,9 @@ export default {
 </script>
 
 <style>
-
+#test {
+    overflow: scroll;
+    height: 5000px;
+    width: 5000px;
+}
 </style>

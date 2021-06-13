@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iframeのテスト</title>
+  </head>
+  <body>
+    <h1>iframeの中のコンテンツの要素やイベントを取得する方法</h1>
+    <iframe src="sub.html" frameborder="0" id="iframe"></iframe>
+
+
+    <script>
+      $('#iframe').on('load', function () {
+        var iframeContents = $(this).contents();
+        var testBtn = iframeContents.find('#testBtn');
+        testBtn.on('click', function (event) {
+          console.log("クリック！");
+        });
+      });
+    </script>
+
+  </body>
+</html>
